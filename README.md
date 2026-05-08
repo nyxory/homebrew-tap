@@ -1,4 +1,4 @@
-# homebrew-nyx
+# homebrew-tap
 
 Distribution channel for the [`nyx` CLI](https://github.com/nyxory/cli).
 
@@ -14,15 +14,15 @@ Every `v*.*.*` tag pushed there fans out to:
 ### Homebrew (macOS + Linux)
 
 ```sh
-brew install nyxory/nyx/nyx
+brew install nyxory/tap/nyx
 ```
 
-`brew upgrade nyxory/nyx/nyx` keeps it current.
+`brew upgrade nyxory/tap/nyx` keeps it current.
 
 ### curl-pipe
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/nyxory/homebrew-nyx/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/nyxory/homebrew-tap/main/install.sh | bash
 ```
 
 Auto-detects platform, drops the binary into `/usr/local/bin/nyx`
@@ -34,7 +34,7 @@ with `bash -s -- --dir ~/bin`.
 ### Manual
 
 Pull the archive matching your platform from the
-[Releases tab](https://github.com/nyxory/homebrew-nyx/releases),
+[Releases tab](https://github.com/nyxory/homebrew-tap/releases),
 extract, drop `nyx` on your `$PATH`.
 
 ## What lives where
@@ -42,7 +42,7 @@ extract, drop `nyx` on your `$PATH`.
 | | Path | Updated by |
 |---|---|---|
 | Source code | [`nyxory/cli`](https://github.com/nyxory/cli) (private) | Engineering |
-| Release tarballs | [Releases tab](https://github.com/nyxory/homebrew-nyx/releases) | goreleaser, on tag push |
+| Release tarballs | [Releases tab](https://github.com/nyxory/homebrew-tap/releases) | goreleaser, on tag push |
 | Brew formula | [`Formula/nyx.rb`](Formula/nyx.rb) | goreleaser, on tag push |
 | Installer script | [`install.sh`](install.sh) | mirrored from [`nyxory/cli/release/install.sh`](https://github.com/nyxory/cli/blob/main/release/install.sh) |
 

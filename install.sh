@@ -2,21 +2,21 @@
 # Nyxory CLI installer.
 #
 # This script is the canonical curl-pipe installer. It is meant to be
-# served from the public release repo (`nyxory/homebrew-nyx`):
+# served from the public release repo (`nyxory/homebrew-tap`):
 #
-#   curl -fsSL https://raw.githubusercontent.com/nyxory/homebrew-nyx/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/nyxory/homebrew-tap/main/install.sh | bash
 #
 # It auto-detects the platform, fetches the latest release tarball
-# from `nyxory/homebrew-nyx`, verifies the SHA-256 checksum against
+# from `nyxory/homebrew-tap`, verifies the SHA-256 checksum against
 # the goreleaser-published `checksums.txt`, and drops the binary on
 # the user's $PATH.
 #
 # The source of truth lives in `nyxory/cli` under `release/install.sh`
-# and is mirrored to `nyxory/homebrew-nyx` whenever it changes.
+# and is mirrored to `nyxory/homebrew-tap` whenever it changes.
 
 set -euo pipefail
 
-REPO="nyxory/homebrew-nyx"
+REPO="nyxory/homebrew-tap"
 INSTALL_DIR=""
 VERSION=""
 
@@ -50,7 +50,7 @@ case "$OS" in
   darwin|linux) ;;
   *)
     echo "unsupported OS: $OS" >&2
-    echo "  → try the Homebrew tap (mac/linux): brew install nyxory/nyx/nyx" >&2
+    echo "  → try the Homebrew tap (mac/linux): brew install nyxory/tap/nyx" >&2
     echo "  → or download manually: https://github.com/${REPO}/releases" >&2
     exit 1
     ;;
