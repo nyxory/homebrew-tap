@@ -11,8 +11,10 @@
 # the goreleaser-published `checksums.txt`, and drops the binary on
 # the user's $PATH.
 #
-# The source of truth lives in `nyxory/cli` under `release/install.sh`
-# and is mirrored to `nyxory/homebrew-tap` whenever it changes.
+# The source of truth lives in `nyxory/cli` under `release/install.sh`.
+# A push to main that touches this file triggers
+# `.github/workflows/mirror-install.yml`, which mirrors it to the root
+# of `nyxory/homebrew-tap` (where the curl-pipe URL above serves from).
 #
 # Cosmetics: the installer prints a terminal-adaptive brand banner. It
 # degrades cleanly — no TTY (curl | bash into a pipe), NO_COLOR, or
