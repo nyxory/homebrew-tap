@@ -1,13 +1,24 @@
-# homebrew-tap
+<p align="center">
+  <img src="assets/nyxory-logo.png" alt="nyxory" width="340">
+</p>
 
-Distribution channel for the [`nyx` CLI](https://github.com/nyxory/cli).
+<h3 align="center">Distribution channel for the <code>nyx</code> CLI</h3>
 
-This repo is auto-managed by goreleaser running in
-[`nyxory/cli`'s release workflow](https://github.com/nyxory/cli/blob/main/.github/workflows/release.yml).
-Every `v*.*.*` tag pushed there fans out to:
+<p align="center">
+  <a href="https://github.com/nyxory/homebrew-tap/releases/latest"><img src="https://img.shields.io/github/v/release/nyxory/homebrew-tap?color=CCFF00&labelColor=000&label=release" alt="Latest release"></a>
+  <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux-CCFF00?labelColor=000" alt="Platforms">
+  <img src="https://img.shields.io/badge/arch-amd64%20%7C%20arm64-CCFF00?labelColor=000" alt="Architectures">
+  <a href="https://nyxory.com"><img src="https://img.shields.io/badge/nyxory-.com-CCFF00?labelColor=000" alt="nyxory.com"></a>
+</p>
 
-- **GitHub Releases on this repo** — four tarballs (`darwin/{amd64,arm64}` + `linux/{amd64,arm64}`) plus a `checksums.txt`.
-- **`Formula/nyx.rb`** — the Homebrew formula, rewritten to point at the new release.
+---
+
+`nyx` is the command-line client for the [nyxory](https://nyxory.com)
+deployment platform — drive a deploy end-to-end from your terminal, or
+hand it to an LLM agent. This repo is the **public distribution
+channel**: it hosts the release binaries, the Homebrew formula, and the
+`curl`-pipe installer. The source lives in
+[`nyxory/cli`](https://github.com/nyxory/cli).
 
 ## Install
 
@@ -17,7 +28,7 @@ Every `v*.*.*` tag pushed there fans out to:
 brew install nyxory/tap/nyx
 ```
 
-`brew upgrade nyxory/tap/nyx` keeps it current.
+Keep it current with `brew upgrade nyxory/tap/nyx`.
 
 ### curl-pipe
 
@@ -25,30 +36,53 @@ brew install nyxory/tap/nyx
 curl -fsSL https://raw.githubusercontent.com/nyxory/homebrew-tap/main/install.sh | bash
 ```
 
-Auto-detects platform, drops the binary into `/usr/local/bin/nyx`
-(or `~/.local/bin/nyx` if the former isn't writable), and verifies
-SHA-256 against the goreleaser-published `checksums.txt`. Pin a
-version with `bash -s -- --version v0.5.0` or change the destination
-with `bash -s -- --dir ~/bin`.
+Auto-detects your platform, verifies the download against the
+goreleaser-published `checksums.txt`, and installs to `/usr/local/bin`
+(when writable without `sudo`) or `~/.local/bin` otherwise.
+
+| Want to… | Append |
+|---|---|
+| Pin a version | `bash -s -- --version v0.8.0` |
+| Choose the install dir | `bash -s -- --dir ~/bin` |
+| …or via env (handy for pipes) | `… \| NYX_INSTALL_DIR=~/bin bash` |
+| Skip the banner animation | `… \| NYX_NO_ANIM=1 bash` |
 
 ### Manual
 
-Pull the archive matching your platform from the
+Grab the archive for your platform from the
 [Releases tab](https://github.com/nyxory/homebrew-tap/releases),
-extract, drop `nyx` on your `$PATH`.
+extract, and drop `nyx` on your `$PATH`.
+
+## Quickstart
+
+`nyx` ships with two pre-seeded contexts — **`prod`** (active by
+default) and **`dev`** — so signing in needs no URLs:
+
+```sh
+nyx login                 # browser sign-in to prod
+nyx login --context dev   # …or the dev stack
+
+nyx project add widget                                   # create a project
+nyx deploy https://github.com/me/widget --project widget # deploy it
+nyx app list                                             # confirm it's up
+```
+
+Every command takes `--json` for a single machine-readable envelope —
+exactly what an agent caller needs to chain follow-ups. See the full
+docs in [`nyxory/cli`](https://github.com/nyxory/cli#readme).
 
 ## What lives where
 
 | | Path | Updated by |
 |---|---|---|
-| Source code | [`nyxory/cli`](https://github.com/nyxory/cli) (private) | Engineering |
-| Release tarballs | [Releases tab](https://github.com/nyxory/homebrew-tap/releases) | goreleaser, on tag push |
-| Brew formula | [`Formula/nyx.rb`](Formula/nyx.rb) | goreleaser, on tag push |
-| Installer script | [`install.sh`](install.sh) | mirrored from [`nyxory/cli/release/install.sh`](https://github.com/nyxory/cli/blob/main/release/install.sh) |
+| Source code | [`nyxory/cli`](https://github.com/nyxory/cli) *(private)* | Engineering |
+| Release tarballs | [Releases tab](https://github.com/nyxory/homebrew-tap/releases) | goreleaser, on `v*.*.*` tag |
+| Brew formula | [`nyx.rb`](nyx.rb) | goreleaser, on `v*.*.*` tag |
+| Installer script | [`install.sh`](install.sh) | mirrored from [`nyxory/cli`](https://github.com/nyxory/cli/blob/main/release/install.sh) on every change |
 
-Don't edit `Formula/nyx.rb` by hand — it gets clobbered on the next
-release. Open a PR against [`nyxory/cli`'s `.goreleaser.yaml`](https://github.com/nyxory/cli/blob/main/.goreleaser.yaml)
-instead.
-
-For `install.sh`, edit upstream and re-mirror; the local file is the
-served copy but the canonical source is in `nyxory/cli`.
+> [!NOTE]
+> Everything in this repo is generated or mirrored — **don't edit it by
+> hand.** `nyx.rb` is rewritten by goreleaser on every release, and
+> `install.sh` is auto-mirrored from `nyxory/cli/release/install.sh`.
+> Open your PR against [`nyxory/cli`](https://github.com/nyxory/cli)
+> instead.
