@@ -59,17 +59,16 @@ extract, and drop `nyx` on your `$PATH`.
 default) and **`dev`** — so signing in needs no URLs:
 
 ```sh
-nyx login                 # browser sign-in to prod
-nyx login --context dev   # …or the dev stack
-
-nyx project add widget                                   # create a project
-nyx deploy https://github.com/me/widget --project widget # deploy it
-nyx app list                                             # confirm it's up
+nyx login                # browser sign-in to prod (or: --context dev)
+nyx claude install       # wire Claude Code / your AI agent to the nyxory MCP
+nyx project add widget   # create a project
+nyx app list             # see what's running
 ```
 
-Every command takes `--json` for a single machine-readable envelope —
-exactly what an agent caller needs to chain follow-ups. See the full
-docs in [`nyxory/cli`](https://github.com/nyxory/cli#readme).
+Deploys run through your **AI agent**: once the MCP is wired up, ask
+Claude Code (or Cursor / Codex) to deploy your repo — it drives the
+`nyx_*` tools for you. Every command also takes `--json` for scripting
+and CI. Full docs in [`nyxory/cli`](https://github.com/nyxory/cli#readme).
 
 ## What lives where
 
