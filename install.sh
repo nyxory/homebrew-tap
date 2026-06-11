@@ -4,7 +4,7 @@
 # This script is the canonical curl-pipe installer. It is meant to be
 # served from the public release repo (`nyxory/homebrew-tap`):
 #
-#   curl -fsSL https://raw.githubusercontent.com/nyxory/homebrew-tap/main/install.sh | bash
+#   curl -fsSL https://nyxory.com/install.sh | bash
 #
 # It auto-detects the platform, fetches the latest release tarball
 # from `nyxory/homebrew-tap`, verifies the SHA-256 checksum against
@@ -167,7 +167,7 @@ case "$OS" in
   mingw*|msys*|cygwin*)
     # Git-Bash / MSYS / Cygwin on Windows — point at the native installer.
     echo "this is the mac/linux installer; on Windows use PowerShell instead:" >&2
-    echo '  powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/nyxory/homebrew-tap/main/install.ps1 | iex"' >&2
+    echo '  powershell -ExecutionPolicy Bypass -c "irm https://nyxory.com/install.ps1 | iex"' >&2
     exit 1
     ;;
   *)
