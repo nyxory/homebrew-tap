@@ -3,7 +3,7 @@
 # This script is the canonical PowerShell installer. It is meant to be
 # served from the public release repo (`nyxory/homebrew-tap`):
 #
-#   powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/nyxory/homebrew-tap/main/install.ps1 | iex"
+#   powershell -ExecutionPolicy Bypass -c "irm https://nyxory.com/install.ps1 | iex"
 #
 # It auto-detects the architecture, fetches the latest release zip from
 # `nyxory/homebrew-tap`, verifies the SHA-256 checksum against the
