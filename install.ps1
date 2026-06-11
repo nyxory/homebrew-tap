@@ -220,9 +220,10 @@ if ($hasSetup -and $interactive -and -not $env:NYX_INSTALL_ONLY) {
     if ($loginOk) {
         Write-Step 'Wiring your AI clients'
         # Marks this run as the chained installer path in the install
-        # funnel (vs a hand-typed `nyx setup`).
+        # funnel (vs a hand-typed `nyx setup`). No --all: setup shows
+        # its pre-selected checklist so nothing gets wired unseen.
         $env:NYX_SETUP_SOURCE = 'installer'
-        & $nyx setup --all
+        & $nyx setup
         if ($LASTEXITCODE -ne 0) {
             Write-Host 'setup did not complete - re-run anytime with: nyx setup' -ForegroundColor Yellow
         }
