@@ -349,8 +349,10 @@ if [[ $HAS_SETUP -eq 1 && $HAVE_TTY -eq 1 && -z "${NYX_INSTALL_ONLY:-}" ]]; then
   fi
   step "Wiring your AI clients"
   # NYX_SETUP_SOURCE marks this run as the chained installer path in
-  # the install funnel (vs a hand-typed `nyx setup`).
-  NYX_SETUP_SOURCE=installer "$NYX" setup --all </dev/tty \
+  # the install funnel (vs a hand-typed `nyx setup`). No --all: setup
+  # shows its pre-selected checklist so nothing gets wired unseen —
+  # stdin is /dev/tty, so the prompt works inside the curl pipe.
+  NYX_SETUP_SOURCE=installer "$NYX" setup </dev/tty \
     || echo "  ⚠ setup didn't complete — re-run anytime with: nyx setup" >&2
 else
   echo "  Next:"
