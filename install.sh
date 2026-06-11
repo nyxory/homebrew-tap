@@ -48,6 +48,7 @@ Options:
 Environment:
   NYX_INSTALL_DIR   Default install dir when --dir is omitted (handy for
                     the curl|bash form: ... | NYX_INSTALL_DIR=~/bin bash).
+  NYX_INSTALL_ONLY  Set (any non-empty value) to skip the login/setup chain.
   NO_COLOR          Disable all color.
   NYX_NO_ANIM       Skip the reveal animation (banner still prints).
 USAGE
@@ -163,6 +164,12 @@ banner
 OS="$(uname -s | tr '[:upper:]' '[:lower:]')"
 case "$OS" in
   darwin|linux) ;;
+  mingw*|msys*|cygwin*)
+    # Git-Bash / MSYS / Cygwin on Windows — point at the native installer.
+    echo "this is the mac/linux installer; on Windows use PowerShell instead:" >&2
+    echo '  powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/nyxory/homebrew-tap/main/install.ps1 | iex"' >&2
+    exit 1
+    ;;
   *)
     echo "unsupported OS: $OS" >&2
     echo "  → try the Homebrew tap (mac/linux): brew install nyxory/tap/nyx" >&2
@@ -194,6 +201,9 @@ if [[ -z "$VERSION" ]]; then
     exit 1
   fi
 fi
+
+# Tags are always v-prefixed; tolerate --version 0.6.0 / NYX_VERSION=0.6.0.
+[[ "$VERSION" == v* ]] || VERSION="v${VERSION}"
 
 ASSET="nyx-${VERSION}-${OS}-${ARCH}.tar.gz"
 ASSET_URL="https://github.com/${REPO}/releases/download/${VERSION}/${ASSET}"
@@ -315,7 +325,38 @@ case ":$PATH:" in
     ;;
 esac
 echo
-echo "  Next:"
-echo "    nyx login          # sign in (defaults to the prod context)"
-echo "    nyx login --context dev   # sign in to the dev stack"
-echo "    nyx --help         # everything else"
+
+# --- first-run chain ----------------------------------------------------------
+# One pasted command end-to-end: sign in (browser OAuth) and wire every
+# detected AI client via `nyx setup`. Interactivity comes from /dev/tty —
+# stdin is the curl pipe. Skipped when NYX_INSTALL_ONLY is set or without
+# a controlling terminal (CI). Older pinned versions without `nyx setup`
+# fall back to printed next steps. Probe is `setup --help`, NOT `help
+# setup` — cobra exits 0 ("Unknown help topic" on stderr) for the latter,
+# so it can't detect a missing command.
+
+NYX="${INSTALL_DIR}/nyx"
+HAVE_TTY=0
+if { : </dev/tty; } 2>/dev/null; then HAVE_TTY=1; fi
+HAS_SETUP=0
+if "$NYX" setup --help >/dev/null 2>&1; then HAS_SETUP=1; fi
+
+if [[ $HAS_SETUP -eq 1 && $HAVE_TTY -eq 1 && -z "${NYX_INSTALL_ONLY:-}" ]]; then
+  step "Signing in"
+  if ! "$NYX" login </dev/tty; then
+    echo "  ⚠ login didn't complete — finish later with: nyx login && nyx setup" >&2
+    exit 0
+  fi
+  step "Wiring your AI clients"
+  "$NYX" setup --all </dev/tty \
+    || echo "  ⚠ setup didn't complete — re-run anytime with: nyx setup" >&2
+else
+  echo "  Next:"
+  echo "    nyx login          # sign in (defaults to the prod endpoint)"
+  if [[ $HAS_SETUP -eq 1 ]]; then
+    echo "    nyx setup          # wire your AI clients (Claude Code, Codex, Cursor, VS Code)"
+  else
+    echo "    nyx claude install # wire your agent (also: nyx cursor / codex install)"
+  fi
+  echo "    nyx --help         # everything else"
+fi
