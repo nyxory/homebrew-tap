@@ -5,20 +5,20 @@
 class Nyx < Formula
   desc "CLI for the Nyxory deployment platform"
   homepage "https://nyxory.com"
-  version "0.12.1"
+  version "0.12.2"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/nyxory/homebrew-tap/releases/download/v0.12.1/nyx-v0.12.1-darwin-amd64.tar.gz"
-      sha256 "db1dcf6c0bbc22e2d5bfceb3808ae3b022031378aa94156f5d0a804f2041ac04"
+      url "https://github.com/nyxory/homebrew-tap/releases/download/v0.12.2/nyx-v0.12.2-darwin-amd64.tar.gz"
+      sha256 "791a6d668c2f7ae74f814918b9a1117a8b8de2215fdd15933bb7b42ec19b9d6c"
 
       define_method(:install) do
         bin.install 'nyx'
       end
     end
     if Hardware::CPU.arm?
-      url "https://github.com/nyxory/homebrew-tap/releases/download/v0.12.1/nyx-v0.12.1-darwin-arm64.tar.gz"
-      sha256 "45569155d4258fd885ef31c41c4315f633fda5cb070d752db9200dc34f65640a"
+      url "https://github.com/nyxory/homebrew-tap/releases/download/v0.12.2/nyx-v0.12.2-darwin-arm64.tar.gz"
+      sha256 "663682566a1a6f51b26d02e2c258e034323a25f50192889386ca6828ceccdbe8"
 
       define_method(:install) do
         bin.install 'nyx'
@@ -28,15 +28,15 @@ class Nyx < Formula
 
   on_linux do
     if Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
-      url "https://github.com/nyxory/homebrew-tap/releases/download/v0.12.1/nyx-v0.12.1-linux-amd64.tar.gz"
-      sha256 "a94f9ef58c579e92508c642996d9950f6c3f293e7a065091c5cb6c9d1c864aa3"
+      url "https://github.com/nyxory/homebrew-tap/releases/download/v0.12.2/nyx-v0.12.2-linux-amd64.tar.gz"
+      sha256 "2db337ba4105a591b8da77732fc8feffefdbec3f001e0dd884d8d5056f928278"
       define_method(:install) do
         bin.install 'nyx'
       end
     end
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/nyxory/homebrew-tap/releases/download/v0.12.1/nyx-v0.12.1-linux-arm64.tar.gz"
-      sha256 "2cbfb0e793fe59f452ad7ba26ef40ae161e1831589c1dafa3bde8748b8718b6e"
+      url "https://github.com/nyxory/homebrew-tap/releases/download/v0.12.2/nyx-v0.12.2-linux-arm64.tar.gz"
+      sha256 "4e5166dafc39392c53ba781a68ef72565b59f398379464ba89acfbeabc7d35be"
       define_method(:install) do
         bin.install 'nyx'
       end
